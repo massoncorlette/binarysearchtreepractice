@@ -7,19 +7,21 @@ class Node {
   }
 }
 
+const Tree = function(arr) {
 
-
-const Tree = function() {
-
-  const root = null;
+  let root = null;
 
   function sortArr(arr) {
     arr.sort((a,b) => a - b);
 
-    return arr;
+    const newArr = arr.filter((item, index) => {
+      return arr.indexOf(item) === index;
+    });
+
+    return newArr;
   }
 
-  function buildTree(arr,start,end) {
+  function buildTree(arr, start, end) {
 
     if (start > end)
     {
@@ -36,8 +38,22 @@ const Tree = function() {
 
   }
 
-  function insert(value) {
+  function insert(root, value) {
 
+    if (root === null ) {
+      return new Node(value);
+    }
+
+    if (root.val === value) {
+      return root;
+    }
+
+    if (value < root.val) {
+      root.left = insert(root.left, value);
+    } else if ( value > root.val) {
+      root.right = insert(root.right, value);
+    }
+    return root;
   }
 
   function deleteItem(value) {
@@ -87,13 +103,12 @@ const Tree = function() {
     if (node.right !== null) {
       prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
     }
-    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.val}`); // Change from node.data to node.val
     if (node.left !== null) {
       prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
   };
  
-
   return {
     root:root,
     sortArr:sortArr,
@@ -116,15 +131,18 @@ const Tree = function() {
 
 let treeObj = Tree();
 
-let testArr = [3,1,6,7]
+let testArr = [1, 7, 4, 23, 8, 9]
 let lengthArr = testArr.length;
 
+treeObj.sortArr(testArr);
+console.log(testArr);
+
 // getting the base 0 level of tree returned value from the recursion
-const root = treeObj.buildTree(testArr, testArr[0], testArr[lengthArr - 1]);
+let root = treeObj.buildTree(testArr, 0, lengthArr - 1) ;
+root = treeObj.insert(root, 24);
 
 console.log(root);
 
-treeObj.sortArr(testArr);
-
-
 treeObj.prettyPrint(root);
+
+
