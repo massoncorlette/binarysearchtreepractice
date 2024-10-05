@@ -25,7 +25,7 @@ const Tree = function(arr) {
 
     if (start > end)
     {
-        return null;
+      return null;
     }
 
     const mid = parseInt((start + end) / 2);
@@ -56,8 +56,38 @@ const Tree = function(arr) {
     return root;
   }
 
-  function deleteItem(value) {
+  function getSuccessor(curr) {
+    curr = curr.right;
+    while (curr !== null && curr.left !== null) {
+        curr = curr.left;
+    }
+    return curr;
+  }
 
+  function deleteItem(root,value) {
+
+    if (root === null) {
+      return root;
+    }
+
+    if (root.val > value) {
+      root.left = deleteItem(root.left, value);
+    } else if (root.val < value) {
+      root.right = deleteItem(root.right, value);
+    } else {
+      if (root.left === null) {
+        return root.right;
+      }
+
+      if (root.right === null) {
+        return root.left;
+      }
+
+      let succ = getSuccessor(root);
+      root.val = succ.val;
+      root.right = deleteItem(root.right, succ.val);
+    }
+    return root;
   }
 
   function find(value) {
@@ -115,6 +145,7 @@ const Tree = function(arr) {
     buildTree:buildTree,
     insert:insert,
     deleteItem:deleteItem,
+    getSuccessor:getSuccessor,
     find:find,
     levelOrder:levelOrder,
     inOrder:inOrder,
@@ -140,6 +171,7 @@ console.log(testArr);
 // getting the base 0 level of tree returned value from the recursion
 let root = treeObj.buildTree(testArr, 0, lengthArr - 1) ;
 root = treeObj.insert(root, 24);
+root = treeObj.insert(root, 3);
 
 console.log(root);
 

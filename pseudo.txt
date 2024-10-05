@@ -1,0 +1,28 @@
+
+
+delNode(root, x)
+
+  for base case if root is null 
+   return root
+
+  otherwise for the root.key being greater than x
+  assign it's left node to continue searching
+  if less than x
+  assign it's right node to continue searching
+
+  else if root.key equals the value of x
+
+    lets check to see if has children
+    
+    if root.left is null lets return root.right to assign to parent node
+    if root.right is null lets return root.left to assign to parent node
+
+   otherwise if both nodes are not null, and there is two child nodes
+   use the getSuccessor to get the node that is next node in an in-order
+   traversal of the tree ((the leftmost node in the right subtree))
+
+   now that we have the successor node we can assign the node.key to the 
+   root.key, then we will go down root.right subtree to find and delete
+   it
+
+  return root
