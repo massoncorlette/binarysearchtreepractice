@@ -90,11 +90,47 @@ const Tree = function(arr) {
     return root;
   }
 
-  function find(value) {
+  function find(root,value) {
+    if (root === null ) {
+      return null;
+    }
 
+    if (root.val === value) {
+      return root;
+    }
+
+    if (value < root.val) {
+      return find(root.left, value);
+    } else if ( value > root.val) {
+      return find(root.right, value);
+    }
+    return root;
   }
 
-  function levelOrder(callback) {
+  // level order traversal to callback func on every node
+  function levelOrder(root,callback) {
+
+    let Que = [];
+
+    if (root === null) {
+      return 
+    } else {
+      Que.push(root);
+    }
+
+    while (Que) {
+      let currentQue = Que.shift();
+
+      if (currentQue.left !== null) {
+        Que.push(currentQue.left);
+      }
+
+      if (currentQue.right !== null) {
+        Que.push(currentQue.right);
+      }
+
+      callback(currentQue);
+    }
 
   }
 
@@ -173,8 +209,12 @@ let root = treeObj.buildTree(testArr, 0, lengthArr - 1) ;
 root = treeObj.insert(root, 24);
 root = treeObj.insert(root, 3);
 
+root = treeObj.deleteItem(root, 9)
+
 console.log(root);
 
 treeObj.prettyPrint(root);
+
+console.log(treeObj.find(root, 23))
 
 
