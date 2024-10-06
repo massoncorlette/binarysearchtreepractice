@@ -112,6 +112,10 @@ const Tree = function(arr) {
   // be where it is ingrained
   function levelOrder(root,callback) {
 
+    if(!(typeof callback === 'function')) {
+      throw new TypeError("Second arg must be a function");
+    }
+
     let Que = [];
 
     if (root === null) {
@@ -123,28 +127,60 @@ const Tree = function(arr) {
     while (Que.length !== 0) {
       let currentQue = Que.shift();
 
+      currentQue.val = callback(currentQue.val);
+
       if (currentQue.left !== null) {
         Que.push(currentQue.left);
       }
 
       if (currentQue.right !== null) {
         Que.push(currentQue.right);
-      }
-
-      callback(currentQue);
+      }  
     }
 
   }
 
-  function inOrder(callback) {
+  function inOrder(root,callback) {
+    
+    if(!(typeof callback === 'function')) {
+      throw new TypeError("Second arg must be a function");
+    }
+
+    if (root == null) {
+      return;
+    }
+
+    let leftNode = inOrder(root.left);
+
+    callback(leftNode.val);
+
+    let rightNode = inOrder(root.right);
+
+    callback(rightNode.val);
 
   }
 
   function preOrder(callback) {
+
+    if(!(typeof callback === 'function')) {
+      throw new TypeError("Second arg must be a function");
+    }
+
+    if (root == null) {
+      return;
+    }
     
   }
 
   function postOrder(callback) {
+
+    if(!(typeof callback === 'function')) {
+      throw new TypeError("Second arg must be a function");
+    }
+
+    if (root == null) {
+      return;
+    }
     
   }
 
@@ -219,12 +255,11 @@ treeObj.prettyPrint(root);
 
 console.log(treeObj.find(root, 23))
 
-function addOne(value) {
-  return value + 1;
+function addone(val) {
+  return val = val + 1;
 }
 
-treeObj.levelOrder(root,addOne);
+treeObj.levelOrder(root);
 
 console.log(root);
-
 
