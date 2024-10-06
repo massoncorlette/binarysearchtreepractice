@@ -150,17 +150,10 @@ const Tree = function(arr) {
       return;
     }
 
-    let leftNode = inOrder(root.left);
-
-    callback(leftNode.val);
-
-    let rightNode = inOrder(root.right);
-
-    callback(rightNode.val);
 
   }
 
-  function preOrder(callback) {
+  function preOrder(root,callback) {
 
     if(!(typeof callback === 'function')) {
       throw new TypeError("Second arg must be a function");
@@ -169,6 +162,10 @@ const Tree = function(arr) {
     if (root == null) {
       return;
     }
+
+    root.val = callback(root.val);
+
+    preOrder(root.left);
     
   }
 
