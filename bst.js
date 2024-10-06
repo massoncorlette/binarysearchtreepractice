@@ -108,6 +108,8 @@ const Tree = function(arr) {
   }
 
   // level order traversal to callback func on every node
+  // Get a sense of these functions, the coming projects will
+  // be where it is ingrained
   function levelOrder(root,callback) {
 
     let Que = [];
@@ -118,7 +120,7 @@ const Tree = function(arr) {
       Que.push(root);
     }
 
-    while (Que) {
+    while (Que.length !== 0) {
       let currentQue = Que.shift();
 
       if (currentQue.left !== null) {
@@ -216,5 +218,13 @@ console.log(root);
 treeObj.prettyPrint(root);
 
 console.log(treeObj.find(root, 23))
+
+function addOne(value) {
+  return value + 1;
+}
+
+treeObj.levelOrder(root,addOne);
+
+console.log(root);
 
 
