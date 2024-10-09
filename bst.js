@@ -195,34 +195,43 @@ const Tree = function(arr) {
 
   function height(node) {
 
-    let height = 0;
+   if (node === null) {
+    return -1;
+  }
 
-    if (node === null) {
-      return height;
-    }
+  const leftHeight = height(node.left);
+  const rightHeight = height(node.right);
 
-    if (node.left === null && node.right === null) {
-      return height;
-    }
-    
-    if (node.left && node.right) {
-      let checkLeft = height(node.left);
-
-      let checkRight = height(node.right);
-
-      if (checkLeft>checkRight) {
-        height = checkLeft;
-      } else {
-        height = checkRight;
-      }
-    }
-    return height;
+  return Math.max(leftHeight, rightHeight) + 1;
 
   }
 
   function depth(node) {
+  // Base case: if the current node is null, return -1 (node not found)
+  if (root === null) {
+    return -1;
+  }
+
+  // If the current node matches the target node, return 0 (depth is 0)
+  if (root === node) {
+    return 0;
+  }
+
+  // Recursively check the left and right subtrees
+  const leftDepth = depth(root.left, node);
+  if (leftDepth !== -1) {
+    return leftDepth + 1; // Found in left subtree, return depth
+  }
+
+  const rightDepth = depth(root.right, node);
+  if (rightDepth !== -1) {
+    return rightDepth + 1; // Found in right subtree, return depth
+  }
+
+  return -1;
 
   }
+
 
   function isBalanced() {
 
