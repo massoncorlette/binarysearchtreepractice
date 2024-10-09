@@ -149,7 +149,11 @@ const Tree = function(arr) {
     if (root == null) {
       return;
     }
+    inOrder(root.left);
 
+    root.val = callback(root.val);
+
+    inOrder(root.right);
 
   }
 
@@ -166,10 +170,12 @@ const Tree = function(arr) {
     root.val = callback(root.val);
 
     preOrder(root.left);
+
+    preOrder(root.right);
     
   }
 
-  function postOrder(callback) {
+  function postOrder(root,callback) {
 
     if(!(typeof callback === 'function')) {
       throw new TypeError("Second arg must be a function");
@@ -178,10 +184,39 @@ const Tree = function(arr) {
     if (root == null) {
       return;
     }
+
+    postOrder(root.left);
+
+    postOrder(root.right);
+
+    root.val = callback(root.val);
     
   }
 
   function height(node) {
+
+    let height = 0;
+
+    if (node === null) {
+      return height;
+    }
+
+    if (node.left === null && node.right === null) {
+      return height;
+    }
+    
+    if (node.left && node.right) {
+      let checkLeft = height(node.left);
+
+      let checkRight = height(node.right);
+
+      if (checkLeft>checkRight) {
+        height = checkLeft;
+      } else {
+        height = checkRight;
+      }
+    }
+    return height;
 
   }
 
@@ -256,7 +291,5 @@ function addone(val) {
   return val = val + 1;
 }
 
-treeObj.levelOrder(root);
-
-console.log(root);
+console.log(treeObj.height(root));
 
